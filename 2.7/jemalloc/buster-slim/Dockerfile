@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 LABEL maintainer="Kevin Pedroza <kpedroza@ltvco.com>"
 
 RUN set -eux; \
