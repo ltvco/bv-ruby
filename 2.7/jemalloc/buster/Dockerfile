@@ -1,4 +1,4 @@
-FROM buildpack-deps:buster
+FROM buildpack-deps:bullseye
 LABEL maintainer="Kevin Pedroza <kpedroza@ltvco.com>"
 
 # skip installing gem documentation
