@@ -1,5 +1,21 @@
-FROM buildpack-deps:buster
-LABEL maintainer="MinLing Zhao <mzhao@beenverified.com>"
+FROM debian:bullseye-slim
+LABEL maintainer="Kevin Pedroza <kpedroza@ltvco.com>"
+
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		bzip2 \
+		ca-certificates \
+		libffi-dev \
+		libgmp-dev \
+		libssl-dev \
+		libyaml-dev \
+		procps \
+		zlib1g-dev \
+		libjemalloc-dev \
+	; \
+  apt-mark hold libjemalloc-dev; \
+	rm -rf /var/lib/apt/lists/*
 
 # skip installing gem documentation
 RUN set -eux; \
@@ -21,13 +37,23 @@ RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+		autoconf \
 		bison \
 		dpkg-dev \
+		gcc \
+		libbz2-dev \
+		libgdbm-compat-dev \
 		libgdbm-dev \
-		libjemalloc-dev \
+		libglib2.0-dev \
+		libncurses-dev \
+		libreadline-dev \
+		libxml2-dev \
+		libxslt-dev \
+		make \
 		ruby \
+		wget \
+		xz-utils \
 	; \
-	apt-mark hold libjemalloc-dev; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz"; \
