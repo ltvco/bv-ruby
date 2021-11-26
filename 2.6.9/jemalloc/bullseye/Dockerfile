@@ -1,5 +1,5 @@
-FROM buildpack-deps:buster
-LABEL maintainer="MinLing Zhao <mzhao@beenverified.com>"
+FROM buildpack-deps:bullseye
+LABEL maintainer="Kevin Pedroza <kpedroza@ltvco.com>"
 
 # skip installing gem documentation
 RUN set -eux; \
