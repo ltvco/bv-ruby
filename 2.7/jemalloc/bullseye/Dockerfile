@@ -1,21 +1,5 @@
-FROM debian:buster-slim
-LABEL maintainer="Kevin Pedroza <kpedroza@ltvco.com>"
-
-RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		bzip2 \
-		ca-certificates \
-		libffi-dev \
-		libgmp-dev \
-		libssl-dev \
-		libyaml-dev \
-		procps \
-		zlib1g-dev \
-		libjemalloc-dev \
-	; \
-  apt-mark hold libjemalloc-dev; \
-	rm -rf /var/lib/apt/lists/*
+FROM buildpack-deps:bullseye
+LABEL maintainer="Patrick Tulskie <patrick@ltvco.com>"
 
 # skip installing gem documentation
 RUN set -eux; \
@@ -27,8 +11,8 @@ RUN set -eux; \
 
 ENV LANG C.UTF-8
 ENV RUBY_MAJOR 2.7
-ENV RUBY_VERSION 2.7.5
-ENV RUBY_DOWNLOAD_SHA256 d216d95190eaacf3bf165303747b02ff13f10b6cfab67a9031b502a49512b516
+ENV RUBY_VERSION 2.7.8
+ENV RUBY_DOWNLOAD_SHA256 f22f662da504d49ce2080e446e4bea7008cee11d5ec4858fc69000d0e5b1d7fb
 
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
@@ -37,23 +21,13 @@ RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		autoconf \
 		bison \
 		dpkg-dev \
-		gcc \
-		libbz2-dev \
-		libgdbm-compat-dev \
 		libgdbm-dev \
-		libglib2.0-dev \
-		libncurses-dev \
-		libreadline-dev \
-		libxml2-dev \
-		libxslt-dev \
-		make \
+		libjemalloc-dev \
 		ruby \
-		wget \
-		xz-utils \
 	; \
+	apt-mark hold libjemalloc-dev; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz"; \
